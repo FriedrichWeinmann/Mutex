@@ -43,19 +43,19 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @()
+            Tags = @('mutex', 'synchronization')
 
             # A URL to the license for this module.
-            # LicenseUri = ''
+            LicenseUri = 'https://github.com/FriedrichWeinmann/Mutex/blob/master/LICENSE'
 
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            ProjectUri = 'https://github.com/FriedrichWeinmann/Mutex'
 
             # A URL to an icon representing this module.
             # IconUri = ''
 
             # ReleaseNotes of this module
-            # ReleaseNotes = ''
+            ReleaseNotes = 'https://github.com/FriedrichWeinmann/Mutex/blob/master/Mutex/changelog.md'
 
             # Prerelease string of this module
             # Prerelease = ''

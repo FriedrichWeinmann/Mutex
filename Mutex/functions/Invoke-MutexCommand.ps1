@@ -85,7 +85,7 @@
             
                 Unlock-Mutex -Name $Name
                 if ($Temporary -and -not $existedBefore) { Remove-Mutex -Name $Name }
-                $results 
+                $results
             }
         }
         catch {
