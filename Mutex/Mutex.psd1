@@ -29,9 +29,11 @@
     # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
     FunctionsToExport = @(
         'Get-Mutex'
-        'New-Mutex'
+        'Invoke-MutexCommand'
         'Lock-Mutex'
+        'New-Mutex'
         'Remove-Mutex'
+        'Set-MutexDefault'
         'Unlock-Mutex'
     )
 
@@ -41,19 +43,19 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            # Tags = @()
+            Tags = @('mutex', 'synchronization')
 
             # A URL to the license for this module.
-            # LicenseUri = ''
+            LicenseUri = 'https://github.com/FriedrichWeinmann/Mutex/blob/master/LICENSE'
 
             # A URL to the main website for this project.
-            # ProjectUri = ''
+            ProjectUri = 'https://github.com/FriedrichWeinmann/Mutex'
 
             # A URL to an icon representing this module.
             # IconUri = ''
 
             # ReleaseNotes of this module
-            # ReleaseNotes = ''
+            ReleaseNotes = 'https://github.com/FriedrichWeinmann/Mutex/blob/master/Mutex/changelog.md'
 
             # Prerelease string of this module
             # Prerelease = ''

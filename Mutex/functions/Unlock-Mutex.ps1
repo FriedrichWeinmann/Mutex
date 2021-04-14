@@ -31,7 +31,8 @@
         foreach ($mutexName in $Name) {
             if (-not $script:mutexes[$mutexName]) { return }
             if ($script:mutexes[$mutexName].Status -eq "Open") { return }
-            $script:mutexes[$mutexName].Object.ReleaseMutex()
+            try { $script:mutexes[$mutexName].Object.ReleaseMutex() }
+            catch { $PSCmdlet.WriteError($_) }
             $script:mutexes[$mutexName].Status = 'Open'
         }
     }
