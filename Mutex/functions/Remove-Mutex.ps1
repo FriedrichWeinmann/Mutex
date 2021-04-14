@@ -29,6 +29,7 @@
         foreach ($mutexName in $Name) {
             if (-not $script:mutexes[$mutexName]) { continue }
             Unlock-Mutex -Name $mutexName
+            $script:mutexes[$mutexName].Dispose()
             $script:mutexes.Remove($mutexName)
         }
     }
