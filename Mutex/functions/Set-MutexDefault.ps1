@@ -20,6 +20,7 @@
 
         Set new mutexes to be - by default - accessible by all elevated processes
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     [CmdletBinding()]
     param (
         [ValidateSet('default', 'anybody', 'admins')]
