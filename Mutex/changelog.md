@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 1.1.8 (2021-05-19)
+
++ Fix: Invoke-MutexCommand - executes code twice
++ Fix: Remove-Mutex - error when trying to call `Dispose()`
+
 ## 1.1.6 (2021-04-14)
 
 + New: Command Invoke-MutexCommand - execute a scriptblock under the protection of a mutex lock

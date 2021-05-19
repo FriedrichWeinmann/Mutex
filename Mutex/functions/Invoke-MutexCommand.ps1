@@ -81,8 +81,7 @@
                 # Store results and return after Mutex completes to avoid deadlock in pipeline scenarios
                 if ($PSBoundParameters.ContainsKey('ArgumentList')) { $results = & $ScriptBlock $ArgumentList }
                 else { $results = & $ScriptBlock }
-                $results = & $ScriptBlock
-            
+                
                 Unlock-Mutex -Name $Name
                 if ($Temporary -and -not $existedBefore) { Remove-Mutex -Name $Name }
                 $results
