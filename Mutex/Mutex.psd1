@@ -4,7 +4,7 @@
     RootModule        = 'Mutex.psm1'
 
     # Version number of this module.
-    ModuleVersion     = '1.1.8'
+    ModuleVersion     = '1.1.9'
 
     # Supported PSEditions
     # CompatiblePSEditions = @()
