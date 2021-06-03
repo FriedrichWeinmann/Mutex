@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## 1.1.9 (2021-06-03)
+
++ Fix: After acquiring the same lock multiple times in the same process, it will never fully unlock again, guaranteeing a deadlock.
+
 ## 1.1.8 (2021-05-19)
 
 + Fix: Invoke-MutexCommand - executes code twice

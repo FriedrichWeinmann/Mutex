@@ -30,10 +30,16 @@
     process {
         foreach ($mutexName in $Name) {
             if (-not $script:mutexes[$mutexName]) { return }
-            if ($script:mutexes[$mutexName].Status -eq "Open") { return }
-            try { $script:mutexes[$mutexName].Object.ReleaseMutex() }
+            $mutex = $script:mutexes[$mutexName]
+
+            if ($mutex.Status -eq "Open" -and $mutex.LockCount -le 0) { return }
+            try { $mutex.Object.ReleaseMutex() }
             catch { $PSCmdlet.WriteError($_) }
-            $script:mutexes[$mutexName].Status = 'Open'
+
+            $mutex.LockCount--
+            if ($mutex.LockCount -le 0) {
+                $mutex.Status = 'Open'
+            }
         }
     }
 }

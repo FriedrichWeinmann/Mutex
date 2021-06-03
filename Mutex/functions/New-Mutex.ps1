@@ -102,9 +102,10 @@
         #endregion Generate Mutex object & Security
 
         $script:mutexes[$newName] = [PSCustomObject]@{
-            Name   = $newName
-            Status = "Open"
-            Object = $mutex
+            Name      = $newName
+            Status    = "Open"
+            Object    = $mutex
+            LockCount = 0
         }
     }
 }
