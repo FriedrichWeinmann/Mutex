@@ -10,10 +10,6 @@
     .PARAMETER Name
         The name of the mutex to release the lock on.
 
-    .PARAMETER UnlockOnlyOnce
-        If the mutex has been locked multiple times using this parameter only unlocks it once.
-        The LockCount of a mutex can be viewed by Get-Mutex
-
     .EXAMPLE
         PS C:\> Unlock-Mutex -Name MyModule.LogFile
 
@@ -28,9 +24,7 @@
     Param (
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [string]
-        $Name,
-        [Parameter(Mandatory = $false, ValueFromPipeline = $false, ValueFromPipelineByPropertyName = $false)]
-        [switch]$UnlockOnlyOnce
+        $Name
     )
 
     process {
@@ -40,16 +34,17 @@
 
             if ($mutex.Status -eq "Open" -and $mutex.LockCount -le 0) { return }
             if ($UnlockOnlyOnce) { $unLockCycleCount = 1 }else { $unLockCycleCount = $mutex.LockCount }
-            for ($iteration = 0; $iteration -lt $unLockCycleCount; $iteration++) {
-                try {
+            try {
+                # Repeat Releasing until MethodInvocationException is thrown
+                while ($true) {
                     $mutex.Object.ReleaseMutex()
-                    $mutex.LockCount--
                 }
-                catch { $PSCmdlet.WriteError($_) }
             }
-
-            if ($mutex.LockCount -le 0) {
+            catch [System.Management.Automation.MethodInvocationException] {
                 $mutex.Status = 'Open'
+            }
+            catch {
+                catch { $PSCmdlet.WriteError($_) }
             }
         }
     }

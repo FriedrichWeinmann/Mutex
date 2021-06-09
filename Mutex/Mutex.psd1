@@ -34,6 +34,7 @@
         'New-Mutex'
         'Remove-Mutex'
         'Set-MutexDefault'
+        'Test-Mutex'
         'Unlock-Mutex'
     )
 
