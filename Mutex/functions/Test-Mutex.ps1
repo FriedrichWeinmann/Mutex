@@ -34,20 +34,19 @@
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [string]
         $Name,
-        [Parameter(Mandatory = $false, ValueFromPipeline = $false, ValueFromPipelineByPropertyName = $false)]
         [switch]
         $CheckIfLocked
     )
 
     process {
             $existingMutex = $null
-            if ([System.Threading.Mutex]::TryOpenExisting($Name, [ref]$existingMutex) -eq $false) {
+            if (-not [System.Threading.Mutex]::TryOpenExisting($Name, [ref]$existingMutex)) {
                 return $false
             }
             if ($CheckIfLocked) {
                 $canItBeLocked = $existingMutex.WaitOne(5)
                 if ($canItBeLocked) { $existingMutex.ReleaseMutex() }
-                return ($canItBeLocked -eq $false)
+                return (-not $canItBeLocked)
             }
             return $true
     }
