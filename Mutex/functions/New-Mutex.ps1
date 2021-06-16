@@ -108,6 +108,7 @@
             Name      = $newName
             Status    = "Open"
             Object    = $mutex
+            LockCount = 0
         }
     }
 }

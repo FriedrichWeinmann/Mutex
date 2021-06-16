@@ -10,6 +10,9 @@
     .PARAMETER Name
         The name of the mutex to release the lock on.
 
+    .PARAMETER Force
+        If set the mutex will be released as often as needed to reach the LockCount of 0.
+
     .EXAMPLE
         PS C:\> Unlock-Mutex -Name MyModule.LogFile
 
@@ -19,12 +22,25 @@
         PS C:\> Get-Mutex | Release-Mutex
 
         Release the lock on all mutexes managed.
+
+    .EXAMPLE
+        PS C:\> Get-Mutex | Release-Mutex -Force
+
+        Release the lock on all mutexes managed regardless how often they have been locked in the process.
+
+    .NOTES
+        If using -Force the mutex will be released until a
+        MethodInvocationException is thrown. This happens if the mutex has
+        been already released.
     #>
     [CmdletBinding()]
     Param (
         [Parameter(Mandatory = $true, ValueFromPipeline = $true, ValueFromPipelineByPropertyName = $true)]
         [string]
-        $Name
+        $Name,
+        [Parameter(Mandatory = $false, ValueFromPipeline = $false, ValueFromPipelineByPropertyName = $false)]
+        [switch]
+        $Force
     )
 
     process {
@@ -33,18 +49,20 @@
             $mutex = $script:mutexes[$mutexName]
 
             if ($mutex.Status -eq "Open" -and $mutex.LockCount -le 0) { return }
-            if ($UnlockOnlyOnce) { $unLockCycleCount = 1 }else { $unLockCycleCount = $mutex.LockCount }
             try {
-                # Repeat Releasing until MethodInvocationException is thrown
-                while ($true) {
+                do {
                     $mutex.Object.ReleaseMutex()
+                    $mutex.LockCount--
                 }
+                while ($Force)
             }
             catch [System.Management.Automation.MethodInvocationException] {
-                $mutex.Status = 'Open'
+                $mutex.LockCount = 0
             }
-            catch {
-                catch { $PSCmdlet.WriteError($_) }
+
+            catch { $PSCmdlet.WriteError($_) }
+            if ($mutex.LockCount -le 0) {
+                $mutex.Status = 'Open'
             }
         }
     }

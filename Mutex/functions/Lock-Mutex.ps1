@@ -42,6 +42,7 @@
                 }
             }
             $script:mutexes[$mutexName].Status = 'Locked'
+            $script:mutexes[$mutexName].LockCount++
         }
     }
 }
