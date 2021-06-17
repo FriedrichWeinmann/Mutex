@@ -2,18 +2,21 @@
     <#
     .SYNOPSIS
         Create a new mutex managed by this module.
-    
+
     .DESCRIPTION
         Create a new mutex managed by this module.
         The mutex is created in an unacquired state.
         Use Lock-Mutex to acquire the mutex.
 
         Note: Calling Lock-Mutex without first calling New-Mutex will implicitly call New-Mutex.
-        
+
     .PARAMETER Name
         Name of the mutex to create.
         The name is what the system selects for when marshalling access:
-        All mutexes with the same name block each other, across all processes on the current host.
+        All mutexes with the same name block each other, across all processes on the current host/user.
+        If the mutex should be globally valid on a multi user system
+        prefix the name with "Global\". Otherwise it is assumed that it belongs only to the current
+        user session (equals the prefix "Local\").
 
     .PARAMETER Access
         Which set of permissions to apply to the mutex.
@@ -28,10 +31,10 @@
         Create the mutex with the specified name casing.
         By default, mutexes managed by this module are lowercased to guarantee case-insensitivity across all PowerShell executions.
         This however would potentially affect interoperability with other tools & languages, hence this parameter to enable casing fidelity at the cost of case sensitivity.
-        
+
         Note: Even when enabling this, only one instance of name (compared WITHOUT case sensitivity) can be stored within this module!
         For example, the mutexes "Example" and "eXample" could not coexist within the Mutex PowerShell module, even though they are distinct from each other and even when using the -CaseSpecific parameter.
-    
+
     .EXAMPLE
         PS C:\> New-Mutex -Name MyModule.LogFile
 
@@ -56,7 +59,7 @@
         [switch]
         $CaseSpecific
     )
-	
+
     process {
         $newName = $Name.ToLower()
         if ($CaseSpecific) { $newName = $Name }
