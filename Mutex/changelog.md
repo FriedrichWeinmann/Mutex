@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## 1.1.11 (2021-06-17)
+
++ New: Command Test-Mutex - test whether a Mutex exists. (#8 ; @Callidus2000)
++ Upd: Unlock-Mutex - added `-Force` parameter to enable unlocking all Mutex locks in the current process. (#8 ; @Callidus2000)
+
 ## 1.1.9 (2021-06-03)
 
 + Fix: After acquiring the same lock multiple times in the same process, it will never fully unlock again, guaranteeing a deadlock.
